@@ -55,14 +55,17 @@
     <div class="cta-panel reveal">
       <h3 class="display">Join the list</h3>
       <p>Free forever. Unsubscribe any time.</p>
-      <div class="nl-form" style="max-width:420px;margin:0 auto">
+      <form class="nl-form" id="nlForm" action="https://formspree.io/f/xqpkdvqe" method="POST" style="max-width:420px;margin:0 auto">
         <div class="form-row">
           <label for="nlEmail" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
-          <input class="field" type="email" id="nlEmail" placeholder="your@email.com" autocomplete="email">
-          <button class="btn btn-primary" type="button" id="nlBtn">Subscribe</button>
+          <input class="field" type="email" id="nlEmail" name="email" placeholder="your@email.com" autocomplete="email" required>
+          <input type="hidden" name="_subject" value="New Dispatch subscriber">
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+          <button class="btn btn-primary" type="submit" id="nlBtn">Subscribe</button>
         </div>
-        <p id="nlOk" style="display:none;font-size:0.875rem;color:var(--accent);margin-top:var(--s-3);font-weight:500">Thanks &mdash; check your inbox.</p>
-      </div>
+        <p id="nlNote" style="font-size:0.8125rem;color:var(--muted);margin-top:var(--s-3)">Free forever &middot; Unsubscribe anytime</p>
+        <p id="nlOk" style="display:none;font-size:0.875rem;color:var(--accent);margin-top:var(--s-3);font-weight:500">You&rsquo;re subscribed. Welcome to the Dispatch.</p>
+      </form>
     </div>
   </section>
 
@@ -104,7 +107,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="index.html" class="wordmark">Mariverse</a>
-        <p>AI automation systems by Mariam Akinbode. Built from Lagos, delivered globally.</p>
+        <p>AI systems, automation, and agents by Mariam Akinbode.</p>
       </div>
       <div class="footer-col">
         <h4>Work</h4>
@@ -162,13 +165,20 @@
 })();
 
 (function(){
-  var b=document.getElementById('nlBtn');
-  if(!b) return;
-  b.addEventListener('click',function(){
-    var i=document.getElementById('nlEmail'), ok=document.getElementById('nlOk');
+  var f=document.getElementById('nlForm');
+  if(!f) return;
+  f.addEventListener('submit',function(ev){
+    ev.preventDefault();
+    var b=document.getElementById('nlBtn'), i=document.getElementById('nlEmail'),
+        ok=document.getElementById('nlOk'), note=document.getElementById('nlNote');
     if(!i.value||i.value.indexOf('@')===-1){i.focus();return;}
-    window.location.href='mailto:hello@mariverse.co?subject='+encodeURIComponent('Newsletter signup')+'&body='+encodeURIComponent('Please add me to the Mariverse Dispatch: '+i.value);
-    i.value=''; ok.style.display='block';
+    b.disabled=true; b.textContent='Subscribing…';
+    fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}})
+      .then(function(r){
+        if(r.ok){ f.querySelector('.form-row').style.display='none'; if(note)note.style.display='none'; ok.style.display='block'; }
+        else { b.disabled=false; b.textContent='Subscribe'; if(note)note.textContent='Something went wrong — try again, or email hello@mariverse.co'; }
+      })
+      .catch(function(){ b.disabled=false; b.textContent='Subscribe'; if(note)note.textContent='Connection error — try again, or email hello@mariverse.co'; });
   });
 })();
 </script>

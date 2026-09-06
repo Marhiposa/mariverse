@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mariverse — AI Automation Systems by Mariam Akinbode</title>
-<meta name="description" content="Mariverse designs and builds AI-powered automations, agents and workflows that turn repetitive business processes into intelligent systems. AI automation consultancy based in Lagos, working globally.">
+<meta name="description" content="Mariverse designs and builds AI-powered automations, agents and workflows that turn repetitive business processes into intelligent systems. Independent AI automation consultancy working with businesses worldwide.">
 <link rel="canonical" href="https://mariverse.co/">
 
 <meta property="og:type" content="website">
@@ -121,7 +121,7 @@
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <span class="label hero-eyebrow reveal">AI Automation &amp; Systems · Lagos</span>
+        <span class="label hero-eyebrow reveal">AI Systems · Automation · Agents</span>
         <h1 class="display h-hero reveal d1">AI systems for businesses that have outgrown manual work.</h1>
         <p class="lede reveal d2">I design and build AI-powered automations, agents, and workflows that turn repetitive business processes into intelligent systems.</p>
         <div class="hero-actions reveal d3">
@@ -227,8 +227,8 @@
         <div class="project-body">
           <span class="project-class">Independent Build</span>
           <h3 class="project-title">AI Voice Receptionist</h3>
-          <p class="project-desc">A voice AI system built to handle inbound calls and messages for a dental clinic — greeting callers, extracting appointment details from natural conversation, writing confirmed bookings to the calendar, and notifying staff.</p>
-          <p class="project-stack">n8n · Vapi · OpenAI API · Google Calendar · Slack</p>
+          <p class="project-desc">A voice agent that answers inbound calls for a dental clinic — checking live Calendly availability mid-call, searching the web when asked something it doesn't know, remembering callers between conversations, and reviewing its own worst calls to improve its prompt.</p>
+          <p class="project-stack">Vapi · n8n · Calendly · Supabase · Tavily · OpenAI · Gmail</p>
         </div>
         <span class="project-action">View <span aria-hidden="true">&rarr;</span></span>
       </a>
@@ -287,7 +287,7 @@
         <span class="label">About</span>
         <h2 class="display h-section" style="margin:var(--s-4) 0 var(--s-5)">The person building Mariverse</h2>
         <p>I'm Mariam — I build AI-powered systems that take repetitive operational work off people's hands. Voice agents that answer calls, workflows that qualify leads overnight, document systems that read and check submissions before anyone opens a folder.</p>
-        <p>Mariverse is where that work lives. It's a consultancy, a portfolio, and increasingly a place to learn automation — built from Lagos, delivered wherever the work is.</p>
+        <p>Mariverse is where I build, share, and explore practical AI systems &mdash; from automation and AI agents to experiments, resources, and tools.</p>
 
         <ul class="about-list">
           <li>Specialist in n8n, Make.com, Vapi, OpenAI and Gemini integrations</li>
@@ -357,15 +357,17 @@
     <span class="label">Newsletter</span>
     <h2 class="display h-section" style="margin-top:var(--s-4)">The Mariverse Dispatch</h2>
     <p>Weekly automation insights, real workflows, and free resources.</p>
-    <div class="nl-form">
+    <form class="nl-form" id="nlForm" action="https://formspree.io/f/xqpkdvqe" method="POST">
       <div class="form-row">
         <label for="nlEmail" class="sr-only">Email address</label>
-        <input class="field" type="email" id="nlEmail" placeholder="your@email.com" autocomplete="email">
-        <button class="btn btn-primary" type="button" id="nlBtn">Subscribe</button>
+        <input class="field" type="email" id="nlEmail" name="email" placeholder="your@email.com" autocomplete="email" required>
+        <input type="hidden" name="_subject" value="New Dispatch subscriber">
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+        <button class="btn btn-primary" type="submit" id="nlBtn">Subscribe</button>
       </div>
-      <p class="nl-note">Free forever · Unsubscribe anytime</p>
-      <p class="nl-ok" id="nlOk">Thanks — check your inbox.</p>
-    </div>
+      <p class="nl-note" id="nlNote">Free forever · Unsubscribe anytime</p>
+      <p class="nl-ok" id="nlOk">You're subscribed. Welcome to the Dispatch.</p>
+    </form>
   </div>
 </section>
 
@@ -390,7 +392,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="index.html" class="wordmark">Mariverse</a>
-        <p>AI automation systems by Mariam Akinbode. Built from Lagos, delivered globally.</p>
+        <p>AI systems, automation, and agents by Mariam Akinbode.</p>
       </div>
       <div class="footer-col">
         <h4>Work</h4>
@@ -493,17 +495,39 @@
     sections.forEach(function (id) { var s = document.getElementById(id); if (s) no.observe(s); });
   }
 
-  var nlBtn = document.getElementById('nlBtn');
-  if (nlBtn) {
-    nlBtn.addEventListener('click', function () {
+  // Newsletter — real submission, no mail client
+  var nlForm = document.getElementById('nlForm');
+  if (nlForm) {
+    nlForm.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var btn   = document.getElementById('nlBtn');
       var input = document.getElementById('nlEmail');
-      var ok = document.getElementById('nlOk');
+      var ok    = document.getElementById('nlOk');
+      var note  = document.getElementById('nlNote');
       if (!input.value || input.value.indexOf('@') === -1) { input.focus(); return; }
-      window.location.href = 'mailto:hello@mariverse.co?subject=' +
-        encodeURIComponent('Newsletter signup') + '&body=' +
-        encodeURIComponent('Please add me to the Mariverse Dispatch: ' + input.value);
-      input.value = '';
-      ok.style.display = 'block';
+
+      btn.disabled = true;
+      btn.textContent = 'Subscribing…';
+
+      fetch(nlForm.action, {
+        method: 'POST',
+        body: new FormData(nlForm),
+        headers: { 'Accept': 'application/json' }
+      }).then(function (res) {
+        if (res.ok) {
+          nlForm.querySelector('.form-row').style.display = 'none';
+          if (note) note.style.display = 'none';
+          ok.style.display = 'block';
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Subscribe';
+          if (note) { note.textContent = 'Something went wrong — try again, or email hello@mariverse.co'; }
+        }
+      }).catch(function () {
+        btn.disabled = false;
+        btn.textContent = 'Subscribe';
+        if (note) { note.textContent = 'Connection error — try again, or email hello@mariverse.co'; }
+      });
     });
   }
 })();

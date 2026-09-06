@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Voice Receptionist — Mariverse</title>
-<meta name="description" content="A voice AI system built with n8n and Vapi that handles inbound calls, extracts appointment requests, syncs to Google Calendar and alerts staff on Slack.">
+<meta name="description" content="A voice AI agent built with Vapi and n8n that answers inbound calls, checks live Calendly availability, searches the web with Tavily, logs every call to Supabase, and reviews its own worst conversations with an OpenAI model.">
 <link rel="canonical" href="https://mariverse.co/work-ai-receptionist.html">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://mariverse.co/work-ai-receptionist.html">
 <meta property="og:title" content="AI Voice Receptionist — Mariverse">
-<meta property="og:description" content="A voice AI system built with n8n and Vapi that handles inbound calls, extracts appointment requests, syncs to Google Calendar and alerts staff on Slack.">
+<meta property="og:description" content="A voice AI agent built with Vapi and n8n that answers inbound calls, checks live Calendly availability, searches the web with Tavily, logs every call to Supabase, and reviews its own worst conversations with an OpenAI model.">
 <meta property="og:image" content="https://mariverse.co/assets/images/mariam.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2314151A'/><text x='16' y='23' font-family='Georgia,serif' font-size='19' fill='%23FAF9F7' text-anchor='middle'>M</text></svg>">
@@ -47,7 +47,7 @@
       <span class="project-class">Independent Build</span>
     </div>
     <h1 class="display h-page reveal d1">AI Voice Receptionist</h1>
-    <p class="lede reveal d2" style="margin-top:var(--s-5)">A voice AI system built to handle inbound calls and messages for a dental clinic &mdash; greeting callers, extracting appointment details from natural conversation, and writing confirmed bookings straight to the calendar.</p>
+    <p class="lede reveal d2" style="margin-top:var(--s-5)">A voice agent that answers inbound calls for a dental clinic &mdash; checking live appointment availability, answering questions it doesn&rsquo;t already know the answer to, logging every conversation, and reviewing its own worst calls to improve its prompt.</p>
   </div>
 </section>
 
@@ -58,25 +58,31 @@
     <h2>What needed solving</h2>
       <p>A clinic with no after-hours coverage loses patients silently. Calls go unanswered in the evening and at weekends, and the caller books somewhere else.</p>
       <p>Reception staff also lose time each morning working through voicemails and transferring appointment requests into the calendar by hand.</p>
-      <p>This build set out to answer a specific question: could a voice agent handle the full intake conversation well enough that no call goes unanswered and nothing needs re-typing?</p>
+      <p>This build set out to answer a specific question: could a voice agent hold a real intake conversation &mdash; checking live availability, looking things up it doesn&rsquo;t know, and remembering callers between calls &mdash; well enough that no call goes unanswered?</p>
   </section>
 
   <section class="cs-block reveal">
     <span class="label">The Build</span>
     <h2>How the system works</h2>
 
-    <!-- Workflow screenshot slot — drop an image here when ready:
     <figure class="cs-figure">
-      <img src="assets/images/work-ai-receptionist-workflow.webp" alt="Workflow diagram">
-      <figcaption>The n8n workflow behind the voice agent.</figcaption>
+      <picture>
+        <source srcset="assets/images/ai-receptionist-workflow.webp" type="image/webp">
+        <img src="assets/images/ai-receptionist-workflow.png" width="1600" height="888" loading="lazy"
+             alt="n8n workflow for the AI voice agent: a webhook receives the call payload and a rules-based router splits it by request type, branching to Calendly availability lookup, call logging and email reporting, a tools router covering email sending and Tavily web search, and a separate analysis flow that reviews saved conversations with an OpenAI model.">
+      </picture>
+      <figcaption>The voice agent in n8n &mdash; Vapi posts to the webhook, a rules router splits by request type, and the self-review flow runs along the bottom.</figcaption>
     </figure>
-    -->
+
 
     <ol class="steps">
-        <li><div><h4>Voice intake through Vapi</h4><p>Vapi receives inbound calls and messages. The agent greets the caller, then asks for their name, preferred appointment time, and reason for visiting.</p></div></li>
-        <li><div><h4>Extract structure from conversation</h4><p>The call transcript goes to the OpenAI API, which pulls structured data &mdash; name, contact number, requested date and time, appointment type &mdash; out of ordinary spoken language.</p></div></li>
-        <li><div><h4>Route through n8n</h4><p>n8n receives the structured data, validates it, and decides what happens next. If the requested slot is open it confirms; if not it offers alternatives.</p></div></li>
-        <li><div><h4>Sync and notify</h4><p>Confirmed bookings are written to Google Calendar in real time, and a formatted Slack message alerts the clinic team with the full details attached.</p></div></li>
+      <li><div><h4>Vapi handles the voice layer</h4><p>Vapi answers the inbound call and manages the spoken conversation &mdash; speech recognition, turn-taking and voice output. When it needs data or an action it cannot perform itself, it posts the request to an n8n webhook and waits for a response.</p></div></li>
+      <li><div><h4>A rules router splits the request by type</h4><p>The webhook payload hits a rules-based switch that reads what the agent is asking for and routes it down one of three paths: an availability check, a call-logging request, or a tool call.</p></div></li>
+      <li><div><h4>Live availability from Calendly</h4><p>For booking requests, the workflow queries the Calendly API for real open slots, formats the dates into something speakable, pulls the caller&rsquo;s last conversation from Supabase for context, builds a prompt from both, and responds to the webhook so Vapi can say it out loud &mdash; all inside the live call.</p></div></li>
+      <li><div><h4>Tools the agent can reach for</h4><p>A second rules router gives the agent capabilities beyond its own knowledge: sending an email, running a Tavily web search when a caller asks something it has no stored answer for, or sending a confirmation to the caller alongside an internal notification to the clinic. Each branch responds to its own webhook so the agent gets the result mid-conversation.</p></div></li>
+      <li><div><h4>Every call written to Supabase</h4><p>Calls are created as rows in Supabase as they happen, and prior conversations are read back by caller on subsequent calls. The database is what lets the agent recognise a returning caller instead of starting cold every time.</p></div></li>
+      <li><div><h4>Email reporting</h4><p>Once a call is logged, a report goes out over Gmail so the clinic has a written record of what was discussed without opening a dashboard.</p></div></li>
+      <li><div><h4>The agent reviews its own worst calls</h4><p>A separate flow pulls all logged calls from Supabase, a JavaScript node filters down to the worst-performing conversations, and an OpenAI model reads them and proposes an improved system prompt. The revised prompt is written back to the database. The agent gets better from its own failures rather than from someone manually reading transcripts.</p></div></li>
     </ol>
   </section>
 
@@ -84,12 +90,14 @@
     <span class="label">Stack</span>
     <h2>Tools used</h2>
     <div class="stack-list">
-        <span class="stack-item">n8n</span>
         <span class="stack-item">Vapi (Voice AI)</span>
+        <span class="stack-item">n8n</span>
+        <span class="stack-item">Calendly API</span>
+        <span class="stack-item">Supabase</span>
+        <span class="stack-item">Tavily Search API</span>
         <span class="stack-item">OpenAI API</span>
-        <span class="stack-item">Google Calendar API</span>
-        <span class="stack-item">Slack API</span>
-        <span class="stack-item">Google Sheets</span>
+        <span class="stack-item">Gmail API</span>
+        <span class="stack-item">Webhooks</span>
     </div>
   </section>
 
@@ -97,9 +105,10 @@
     <span class="label">Outcome</span>
     <h2>What the system delivers</h2>
     <div class="outcome">
-        <p>The system handles inbound calls at any hour, including evenings, weekends and holidays.</p>
-        <p>Appointment details move from conversation to calendar without anyone re-typing them.</p>
-        <p>The full intake path &mdash; from first contact through confirmed booking to staff notification &mdash; runs end to end without a manual step.</p>
+        <p>The agent answers calls at any hour and checks genuine Calendly availability during the conversation rather than promising a slot it cannot confirm.</p>
+        <p>Tavily search means a caller asking something outside the agent&rsquo;s stored knowledge gets a real answer instead of a dead end.</p>
+        <p>Supabase gives it memory. A returning caller is recognised, and their previous conversation is available as context on the next call.</p>
+        <p>The self-review loop is the part I&rsquo;d build again. Pulling the worst conversations and having a model rewrite the system prompt turns every bad call into an improvement instead of a complaint.</p>
     </div>
   </section>
 
@@ -122,7 +131,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="index.html" class="wordmark">Mariverse</a>
-        <p>AI automation systems by Mariam Akinbode. Built from Lagos, delivered globally.</p>
+        <p>AI systems, automation, and agents by Mariam Akinbode.</p>
       </div>
       <div class="footer-col">
         <h4>Work</h4>

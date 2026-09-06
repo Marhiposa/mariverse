@@ -87,14 +87,18 @@
     <div class="cta-panel reveal">
       <h3 class="display">Get notified when they launch</h3>
       <p>Drop your email and I&rsquo;ll let you know the moment templates are available.</p>
-      <div style="max-width:420px;margin:0 auto">
+      <form id="csForm" action="https://formspree.io/f/xqpkdvqe" method="POST" style="max-width:420px;margin:0 auto">
         <div class="form-row">
           <label for="csEmail" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
-          <input class="field" type="email" id="csEmail" placeholder="your@email.com" autocomplete="email">
-          <button class="btn btn-primary" type="button" id="csBtn">Notify me</button>
+          <input class="field" type="email" id="csEmail" name="email" placeholder="your@email.com" autocomplete="email" required>
+          <input type="hidden" name="_subject" value="Template shop waitlist">
+          <input type="hidden" name="list" value="template-waitlist">
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+          <button class="btn btn-primary" type="submit" id="csBtn">Notify me</button>
         </div>
+        <p id="csNote" style="font-size:0.8125rem;color:var(--muted);margin-top:var(--s-3)">No spam &middot; Unsubscribe anytime</p>
         <p id="csOk" style="display:none;font-size:0.875rem;color:var(--accent);margin-top:var(--s-3);font-weight:500">You&rsquo;re on the list.</p>
-      </div>
+      </form>
     </div>
   </section>
 
@@ -110,7 +114,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="index.html" class="wordmark">Mariverse</a>
-        <p>AI automation systems by Mariam Akinbode. Built from Lagos, delivered globally.</p>
+        <p>AI systems, automation, and agents by Mariam Akinbode.</p>
       </div>
       <div class="footer-col">
         <h4>Work</h4>
@@ -168,13 +172,20 @@
 })();
 
 (function(){
-  var b=document.getElementById('csBtn');
-  if(!b) return;
-  b.addEventListener('click',function(){
-    var i=document.getElementById('csEmail'), ok=document.getElementById('csOk');
+  var f=document.getElementById('csForm');
+  if(!f) return;
+  f.addEventListener('submit',function(ev){
+    ev.preventDefault();
+    var b=document.getElementById('csBtn'), i=document.getElementById('csEmail'),
+        ok=document.getElementById('csOk'), note=document.getElementById('csNote');
     if(!i.value||i.value.indexOf('@')===-1){i.focus();return;}
-    window.location.href='mailto:hello@mariverse.co?subject='+encodeURIComponent('Template waitlist')+'&body='+encodeURIComponent('Please add me to the template waitlist: '+i.value);
-    i.value=''; ok.style.display='block';
+    b.disabled=true; b.textContent='Adding…';
+    fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}})
+      .then(function(r){
+        if(r.ok){ f.querySelector('.form-row').style.display='none'; if(note)note.style.display='none'; ok.style.display='block'; }
+        else { b.disabled=false; b.textContent='Notify me'; if(note)note.textContent='Something went wrong — try again, or email hello@mariverse.co'; }
+      })
+      .catch(function(){ b.disabled=false; b.textContent='Notify me'; if(note)note.textContent='Connection error — try again, or email hello@mariverse.co'; });
   });
 })();
 </script>

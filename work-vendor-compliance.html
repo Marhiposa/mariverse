@@ -65,12 +65,15 @@
     <span class="label">The Build</span>
     <h2>How the system works</h2>
 
-    <!-- Workflow screenshot slot — drop an image here when ready:
     <figure class="cs-figure">
-      <img src="assets/images/work-vendor-compliance-workflow.webp" alt="Workflow diagram">
-      <figcaption>The n8n workflow, from Drive trigger through rules engine to Telegram escalation.</figcaption>
+      <picture>
+        <source srcset="assets/images/vendor-compliance-workflow.webp" type="image/webp">
+        <img src="assets/images/vendor-compliance-workflow.png" width="1600" height="233" loading="lazy"
+             alt="n8n workflow for vendor compliance screening: a Google Drive folder trigger feeds into a wait step, Drive search and download, Extract from File converting each PDF to base64, an HTTP request to the Gemini API, a JavaScript rules engine, an append-row step writing to Google Sheets, an aggregate node, a second JavaScript node producing the submission summary, and an IF node routing submissions that need review to a Telegram alert.">
+      </picture>
+      <figcaption>The full screening workflow in n8n &mdash; from Drive trigger through the rules engine to Telegram escalation.</figcaption>
     </figure>
-    -->
+
 
     <ol class="steps">
         <li><div><h4>Watch the submissions folder</h4><p>A Google Drive trigger watches the vendor submissions folder for folder-level updates, since vendors upload complete folders rather than individual files. A short wait lets uploads settle before enumeration begins.</p></div></li>
@@ -128,7 +131,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="index.html" class="wordmark">Mariverse</a>
-        <p>AI automation systems by Mariam Akinbode. Built from Lagos, delivered globally.</p>
+        <p>AI systems, automation, and agents by Mariam Akinbode.</p>
       </div>
       <div class="footer-col">
         <h4>Work</h4>
