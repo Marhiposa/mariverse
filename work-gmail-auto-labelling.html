@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Gmail Auto-Labelling — Mariverse</title>
+<meta name="description" content="An n8n and OpenAI email categorisation system that reads incoming Gmail messages and applies accurate custom labels automatically.">
+<link rel="canonical" href="https://mariverse.co/work-gmail-auto-labelling.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mariverse.co/work-gmail-auto-labelling.html">
+<meta property="og:title" content="AI Gmail Auto-Labelling — Mariverse">
+<meta property="og:description" content="An n8n and OpenAI email categorisation system that reads incoming Gmail messages and applies accurate custom labels automatically.">
+<meta property="og:image" content="https://mariverse.co/assets/images/mariam.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2314151A'/><text x='16' y='23' font-family='Georgia,serif' font-size='19' fill='%23FAF9F7' text-anchor='middle'>M</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="wordmark">Mariverse</a>
+    <nav aria-label="Main">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="index.html#resources">Resources</a></li>
+        <li><a href="index.html#about">About</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">Menu</button>
+      <a href="index.html#contact" class="btn btn-primary">Work With Me</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="cs-hero">
+  <div class="wrap-mid">
+    <a href="index.html#work" class="back-link reveal">&larr; All work</a>
+    <div class="cs-tags reveal" style="margin-top:var(--s-5)">
+      <span class="project-class is-client">Client Project</span>
+    </div>
+    <h1 class="display h-page reveal d1">AI Gmail Auto-Labelling</h1>
+    <p class="lede reveal d2" style="margin-top:var(--s-5)">An email categorisation system that reads incoming messages with AI and applies accurate custom labels &mdash; replacing rigid native filters and cutting API costs in the process.</p>
+  </div>
+</section>
+
+<div class="wrap-mid">
+
+  <section class="cs-block reveal">
+    <span class="label">The Problem</span>
+    <h2>What needed solving</h2>
+      <p>A high-volume inbox was receiving mail from many different sources &mdash; clients, suppliers, newsletters, support requests &mdash; and Gmail&rsquo;s rule-based filters kept mislabelling or missing them entirely.</p>
+      <p>Manual sorting was consuming time every day.</p>
+      <p>A previous automation attempt had made things worse: it fired on every incoming email, running up API costs without meaningfully improving accuracy.</p>
+  </section>
+
+  <section class="cs-block reveal">
+    <span class="label">The Build</span>
+    <h2>How the system works</h2>
+
+    <!-- Workflow screenshot slot — drop an image here when ready:
+    <figure class="cs-figure">
+      <img src="assets/images/work-gmail-auto-labelling-workflow.webp" alt="Workflow diagram">
+      <figcaption>The scheduled labelling workflow.</figcaption>
+    </figure>
+    -->
+
+    <ol class="steps">
+        <li><div><h4>Switch from event trigger to schedule</h4><p>Rather than firing on every incoming email, the workflow runs on a schedule and batches unprocessed messages. This change alone cut API costs substantially.</p></div></li>
+        <li><div><h4>Classify with AI</h4><p>Each message&rsquo;s subject line and body are sent to the OpenAI API with a classification prompt that assigns it to the correct category based on meaning rather than keyword matching.</p></div></li>
+        <li><div><h4>Apply the label</h4><p>Based on the classification, n8n calls the Gmail API to apply the correct custom label. The inbox stays organised without anyone sorting it.</p></div></li>
+    </ol>
+  </section>
+
+  <section class="cs-block reveal">
+    <span class="label">Stack</span>
+    <h2>Tools used</h2>
+    <div class="stack-list">
+        <span class="stack-item">n8n</span>
+        <span class="stack-item">OpenAI API</span>
+        <span class="stack-item">Gmail API</span>
+        <span class="stack-item">Scheduled batching</span>
+    </div>
+  </section>
+
+  <section class="cs-block reveal">
+    <span class="label">Outcome</span>
+    <h2>What the system delivers</h2>
+    <div class="outcome">
+        <p>The inbox sorts itself with noticeably better accuracy than native filters, because the AI understands context rather than matching strings.</p>
+        <p>API costs dropped after the move from event-triggered to scheduled batch processing &mdash; better architecture, lower spend.</p>
+        <p>Hours a week returned. The client stopped sorting mail and started reading only what was already labelled and relevant.</p>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="cta-panel reveal">
+      <h3 class="display">Have a process like this?</h3>
+      <p>Tell me what your team keeps doing by hand and I&rsquo;ll tell you what it would take to automate.</p>
+      <div class="cta-actions">
+        <a href="mailto:hello@mariverse.co" class="btn btn-primary">hello@mariverse.co</a>
+        <a href="index.html#work" class="btn btn-outline">See more projects</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="wordmark">Mariverse</a>
+        <p>AI automation systems by Mariam Akinbode. Built from Lagos, delivered globally.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Work</h4>
+        <ul>
+          <li><a href="index.html#work">Projects</a></li>
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="index.html#contact">Work With Me</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="newsletter.html">Newsletter</a></li>
+          <li><a href="coming-soon.html">Templates</a></li>
+          <li><a href="index.html#resources">Guides</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://linkedin.com/in/mariamakinbode" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://x.com/mizz_mariposa" target="_blank" rel="noopener">X</a></li>
+          <li><a href="https://www.upwork.com/freelancers/~01d7d6a6ac09bd8132" target="_blank" rel="noopener">Upwork</a></li>
+          <li><a href="mailto:hello@mariverse.co">Email</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Mariverse &middot; mariverse.co</p>
+      <p>hello@mariverse.co</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var els=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+    els.forEach(function(el){io.observe(el);});
+  } else { els.forEach(function(el){el.classList.add('in');}); }
+  var t=document.getElementById('navToggle'), l=document.getElementById('navLinks');
+  if(t&&l){
+    t.addEventListener('click',function(){
+      var o=l.classList.toggle('open');
+      t.textContent=o?'Close':'Menu';
+      t.setAttribute('aria-expanded',o?'true':'false');
+      document.body.style.overflow=o?'hidden':'';
+    });
+    l.addEventListener('click',function(e){
+      if(e.target.tagName==='A'){l.classList.remove('open');t.textContent='Menu';t.setAttribute('aria-expanded','false');document.body.style.overflow='';}
+    });
+  }
+})();
+</script>
+</body>
+</html>

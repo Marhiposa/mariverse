@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vendor Compliance Automation — Mariverse</title>
+<meta name="description" content="An automated tender document pre-screening system built in n8n with the Gemini API, evaluating ten document types against tender compliance rules for construction supply procurement.">
+<link rel="canonical" href="https://mariverse.co/work-vendor-compliance.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mariverse.co/work-vendor-compliance.html">
+<meta property="og:title" content="Vendor Compliance Automation — Mariverse">
+<meta property="og:description" content="An automated tender document pre-screening system built in n8n with the Gemini API, evaluating ten document types against tender compliance rules for construction supply procurement.">
+<meta property="og:image" content="https://mariverse.co/assets/images/mariam.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2314151A'/><text x='16' y='23' font-family='Georgia,serif' font-size='19' fill='%23FAF9F7' text-anchor='middle'>M</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="wordmark">Mariverse</a>
+    <nav aria-label="Main">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="index.html#resources">Resources</a></li>
+        <li><a href="index.html#about">About</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">Menu</button>
+      <a href="index.html#contact" class="btn btn-primary">Work With Me</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="cs-hero">
+  <div class="wrap-mid">
+    <a href="index.html#work" class="back-link reveal">&larr; All work</a>
+    <div class="cs-tags reveal" style="margin-top:var(--s-5)">
+      <span class="project-class">Independent Build</span>
+    </div>
+    <h1 class="display h-page reveal d1">Vendor Compliance Automation</h1>
+    <p class="lede reveal d2" style="margin-top:var(--s-5)">An automated pre-screening system for tender submissions that reads every document in a vendor&rsquo;s folder, evaluates it against the tender&rsquo;s compliance rules, and escalates only what needs a human decision.</p>
+  </div>
+</section>
+
+<div class="wrap-mid">
+
+  <section class="cs-block reveal">
+    <span class="label">The Problem</span>
+    <h2>What needed solving</h2>
+      <p>In construction supply procurement, each tender cycle brings in a large volume of vendor submissions, and every submission contains up to ten separate compliance documents &mdash; CAC registration, tax clearance, PENCOM, ITF, NSITF, insurance, bank guarantee, TIN, company profile and the signed tender form.</p>
+      <p>Reviewing these by hand is slow and error-prone. Every document has to be opened, read, checked for validity against the submission deadline, and cross-referenced against the vendor&rsquo;s registered name. Things get missed. When a disqualification is challenged, the review trail needs to hold up.</p>
+      <p>The goal was a system that does the mechanical checking consistently, records exactly why each document passed or failed, and never guesses when a document is unclear.</p>
+  </section>
+
+  <section class="cs-block reveal">
+    <span class="label">The Build</span>
+    <h2>How the system works</h2>
+
+    <!-- Workflow screenshot slot — drop an image here when ready:
+    <figure class="cs-figure">
+      <img src="assets/images/work-vendor-compliance-workflow.webp" alt="Workflow diagram">
+      <figcaption>The n8n workflow, from Drive trigger through rules engine to Telegram escalation.</figcaption>
+    </figure>
+    -->
+
+    <ol class="steps">
+        <li><div><h4>Watch the submissions folder</h4><p>A Google Drive trigger watches the vendor submissions folder for folder-level updates, since vendors upload complete folders rather than individual files. A short wait lets uploads settle before enumeration begins.</p></div></li>
+        <li><div><h4>Enumerate the vendor&rsquo;s documents</h4><p>A Google Drive search node lists every PDF inside the submitted folder, then a download node retrieves each one for processing.</p></div></li>
+        <li><div><h4>Extract to base64</h4><p>An Extract from File node converts each PDF to a base64 string. This step is essential on n8n Cloud, where binary data is stored on the filesystem and is not directly accessible in expressions.</p></div></li>
+        <li><div><h4>Read each document with Gemini</h4><p>An HTTP request sends each document to the Gemini API for extraction &mdash; identifying document type, dates, names and signature presence. Native batching paces requests to stay within the free tier&rsquo;s rate limit.</p></div></li>
+        <li><div><h4>Apply the rules engine</h4><p>A JavaScript code node evaluates the extracted data against the tender specification. Company name is matched against the vendor folder name with a normalisation function that strips common company suffixes. Statutory documents are checked for validity as at the submission deadline. Insurance is checked for remaining cover. The bank guarantee is checked against the required minimum value. Presence-only documents are checked for existence. The tender form requires a positive signature signal.</p></div></li>
+        <li><div><h4>Flag rather than guess</h4><p>When a document is illegible or a required date cannot be found, the system does not assume. It marks the document for manual review with the reason recorded. This was the central design decision &mdash; a compliance tool that quietly guesses is worse than no tool at all.</p></div></li>
+        <li><div><h4>Log every result</h4><p>Each document result is appended to a Google Sheets compliance log with the file name, document type, vendor, expiry date, status, reason and timestamp &mdash; producing a complete audit trail for every submission.</p></div></li>
+        <li><div><h4>Roll up and escalate</h4><p>An aggregate node collects the full submission, a second code node produces a vendor-level completeness summary, and an IF node filters for submissions needing review. Only those trigger a Telegram alert.</p></div></li>
+    </ol>
+  </section>
+
+  <section class="cs-block reveal">
+    <span class="label">Stack</span>
+    <h2>Tools used</h2>
+    <div class="stack-list">
+        <span class="stack-item">n8n Cloud</span>
+        <span class="stack-item">Google Drive API</span>
+        <span class="stack-item">Gemini API</span>
+        <span class="stack-item">JavaScript rules engine</span>
+        <span class="stack-item">Google Sheets</span>
+        <span class="stack-item">Telegram</span>
+        <span class="stack-item">HTTP Request batching</span>
+    </div>
+  </section>
+
+  <section class="cs-block reveal">
+    <span class="label">Outcome</span>
+    <h2>What the system delivers</h2>
+    <div class="outcome">
+        <p>The system runs unattended. When a vendor uploads a folder, every document in it is read, checked against the tender rules, and logged without anyone opening a file.</p>
+        <p>Every decision is traceable. The compliance log records not just pass or fail but the specific reason &mdash; an expiry date, a name mismatch, a guarantee below threshold &mdash; which is what matters when a disqualification is questioned.</p>
+        <p>Ambiguity is escalated, not resolved silently. Documents the system cannot read confidently are flagged for a person rather than being passed or failed on a guess.</p>
+        <p>The team&rsquo;s attention goes to the submissions that actually need judgement instead of the mechanical checking that precedes them.</p>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="cta-panel reveal">
+      <h3 class="display">Have a process like this?</h3>
+      <p>Tell me what your team keeps doing by hand and I&rsquo;ll tell you what it would take to automate.</p>
+      <div class="cta-actions">
+        <a href="mailto:hello@mariverse.co" class="btn btn-primary">hello@mariverse.co</a>
+        <a href="index.html#work" class="btn btn-outline">See more projects</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="wordmark">Mariverse</a>
+        <p>AI automation systems by Mariam Akinbode. Built from Lagos, delivered globally.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Work</h4>
+        <ul>
+          <li><a href="index.html#work">Projects</a></li>
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="index.html#contact">Work With Me</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="newsletter.html">Newsletter</a></li>
+          <li><a href="coming-soon.html">Templates</a></li>
+          <li><a href="index.html#resources">Guides</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://linkedin.com/in/mariamakinbode" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://x.com/mizz_mariposa" target="_blank" rel="noopener">X</a></li>
+          <li><a href="https://www.upwork.com/freelancers/~01d7d6a6ac09bd8132" target="_blank" rel="noopener">Upwork</a></li>
+          <li><a href="mailto:hello@mariverse.co">Email</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Mariverse &middot; mariverse.co</p>
+      <p>hello@mariverse.co</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var els=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+    els.forEach(function(el){io.observe(el);});
+  } else { els.forEach(function(el){el.classList.add('in');}); }
+  var t=document.getElementById('navToggle'), l=document.getElementById('navLinks');
+  if(t&&l){
+    t.addEventListener('click',function(){
+      var o=l.classList.toggle('open');
+      t.textContent=o?'Close':'Menu';
+      t.setAttribute('aria-expanded',o?'true':'false');
+      document.body.style.overflow=o?'hidden':'';
+    });
+    l.addEventListener('click',function(e){
+      if(e.target.tagName==='A'){l.classList.remove('open');t.textContent='Menu';t.setAttribute('aria-expanded','false');document.body.style.overflow='';}
+    });
+  }
+})();
+</script>
+</body>
+</html>

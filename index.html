@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mariverse — AI Automation Systems by Mariam Akinbode</title>
+<meta name="description" content="Mariverse designs and builds AI-powered automations, agents and workflows that turn repetitive business processes into intelligent systems. AI automation consultancy based in Lagos, working globally.">
+<link rel="canonical" href="https://mariverse.co/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mariverse.co/">
+<meta property="og:title" content="Mariverse — AI Automation Systems by Mariam Akinbode">
+<meta property="og:description" content="AI systems for businesses that have outgrown manual work. Automations, agents and workflows built with n8n, Make.com, Vapi and OpenAI.">
+<meta property="og:image" content="https://mariverse.co/assets/images/mariam.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mariverse — AI Automation Systems">
+<meta name="twitter:description" content="AI systems for businesses that have outgrown manual work.">
+<meta name="twitter:image" content="https://mariverse.co/assets/images/mariam.jpg">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2314151A'/><text x='16' y='23' font-family='Georgia,serif' font-size='19' fill='%23FAF9F7' text-anchor='middle'>M</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+
+<style>
+/* ── HOMEPAGE ONLY ── */
+.hero { padding: var(--s-10) 0 var(--s-9); }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: var(--s-9);
+  align-items: center;
+}
+.hero-eyebrow { display: block; margin-bottom: var(--s-6); }
+.hero h1 { margin-bottom: var(--s-6); max-width: 15ch; }
+.hero .lede { margin-bottom: var(--s-7); }
+.hero-actions { display: flex; gap: var(--s-3); flex-wrap: wrap; align-items: center; }
+
+.portrait figure { margin: 0; }
+.portrait img {
+  width: 100%;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  object-position: top center;
+}
+.portrait figcaption {
+  margin-top: var(--s-4);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--border);
+}
+.portrait .name { font-size: 0.9375rem; font-weight: 600; color: var(--ink); }
+.portrait .role { font-size: 0.8125rem; color: var(--muted); margin-top: 2px; }
+
+.capabilities { border-block: 1px solid var(--border); padding: var(--s-5) 0; }
+.cap-list { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-5); list-style: none; }
+.cap-list li {
+  font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+.about-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: var(--s-8); align-items: start; }
+.about-grid img { border-radius: var(--r-lg); border: 1px solid var(--border); aspect-ratio: 4/5; object-fit: cover; object-position: top center; }
+.about-body p { margin-bottom: var(--s-4); font-size: 1rem; line-height: 1.8; }
+.about-list { list-style: none; margin: var(--s-6) 0; }
+.about-list li { padding: var(--s-3) 0; border-bottom: 1px solid var(--border); font-size: 0.9375rem; color: var(--ink-soft); }
+.about-list li:first-child { border-top: 1px solid var(--border); }
+
+.skills { margin-top: var(--s-6); }
+.skill { margin-bottom: var(--s-4); }
+.skill-top { display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: var(--s-2); }
+.skill-top span:first-child { color: var(--ink); font-weight: 500; }
+.skill-top span:last-child { color: var(--muted); }
+.skill-track { height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.skill-fill { height: 100%; width: 0; background: var(--ink); transition: width 0.9s var(--ease); }
+
+.nl-block { text-align: center; }
+.nl-block h2 { margin-bottom: var(--s-3); }
+.nl-block p { color: var(--ink-soft); margin-bottom: var(--s-6); }
+.nl-form { max-width: 420px; margin: 0 auto; }
+.nl-note { font-size: 0.8125rem; color: var(--muted); margin-top: var(--s-3); }
+.nl-ok { display: none; font-size: 0.875rem; color: var(--accent); margin-top: var(--s-3); font-weight: 500; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+@media (max-width: 900px) {
+  .hero { padding: var(--s-8) 0; }
+  .hero-grid { grid-template-columns: 1fr; gap: var(--s-7); }
+  .portrait { max-width: 300px; }
+  .hero h1 { max-width: none; }
+  .about-grid { grid-template-columns: 1fr; gap: var(--s-6); }
+  .about-grid figure { max-width: 280px; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="wordmark">Mariverse</a>
+    <nav aria-label="Main">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#resources">Resources</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">Menu</button>
+      <a href="#contact" class="btn btn-primary">Work With Me</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="label hero-eyebrow reveal">AI Automation &amp; Systems · Lagos</span>
+        <h1 class="display h-hero reveal d1">AI systems for businesses that have outgrown manual work.</h1>
+        <p class="lede reveal d2">I design and build AI-powered automations, agents, and workflows that turn repetitive business processes into intelligent systems.</p>
+        <div class="hero-actions reveal d3">
+          <a href="#contact" class="btn btn-primary">Work With Me</a>
+          <a href="#work" class="btn btn-outline">See selected work</a>
+        </div>
+      </div>
+      <div class="portrait reveal d2">
+        <figure>
+          <picture>
+            <source srcset="assets/images/mariam.webp" type="image/webp">
+            <img src="assets/images/mariam.jpg" width="880" height="1077"
+                 alt="Mariam Akinbode, founder of Mariverse and AI automation specialist">
+          </picture>
+          <figcaption>
+            <div class="name">Mariam Akinbode</div>
+            <div class="role">Founder · AI Automation Specialist</div>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="capabilities">
+  <div class="wrap">
+    <ul class="cap-list">
+      <li>n8n</li><li>Make.com</li><li>Voice AI</li><li>AI Agents</li>
+      <li>OpenAI</li><li>Gemini</li><li>Workflow Automation</li>
+      <li>Google Workspace APIs</li><li>Telegram &amp; Slack</li>
+    </ul>
+  </div>
+</div>
+
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="sec-head-row reveal">
+      <div>
+        <span class="label">Selected Work</span>
+        <h2 class="display h-section" style="margin-top:var(--s-4)">A curated body of automation systems</h2>
+      </div>
+    </div>
+
+    <div class="projects">
+
+      <a class="project-row reveal" href="work-vendor-compliance.html">
+        <div class="project-num">06</div>
+        <div class="project-body">
+          <span class="project-class">Independent Build</span>
+          <h3 class="project-title">Vendor Compliance Automation</h3>
+          <p class="project-desc">An automated pre-screening system for tender submissions in construction supply procurement. It reads every document in a vendor's folder, evaluates ten document types against the tender's compliance rules, logs each result, and escalates only the submissions that need a human decision.</p>
+          <p class="project-stack">n8n · Gemini API · Google Drive · Google Sheets · Telegram · JavaScript rules engine</p>
+        </div>
+        <span class="project-action">View <span aria-hidden="true">&rarr;</span></span>
+      </a>
+
+      <a class="project-row reveal" href="work-client-onboarding.html">
+        <div class="project-num">05</div>
+        <div class="project-body">
+          <span class="project-class is-client">Client Project</span>
+          <h3 class="project-title">AI-Powered Client Onboarding</h3>
+          <p class="project-desc">An onboarding workflow for a coaching business that triggers the moment a client submits a form — generating a personalised welcome email and logging every client detail into a tracking sheet without manual input.</p>
+          <p class="project-stack">n8n · OpenAI API · Gmail API · Google Sheets</p>
+        </div>
+        <span class="project-action">View <span aria-hidden="true">&rarr;</span></span>
+      </a>
+
+      <a class="project-row reveal" href="work-gmail-auto-labelling.html">
+        <div class="project-num">04</div>
+        <div class="project-body">
+          <span class="project-class is-client">Client Project</span>
+          <h3 class="project-title">AI Gmail Auto-Labelling</h3>
+          <p class="project-desc">An email categorisation system that reads incoming messages with AI and applies accurate custom labels — replacing rigid native filters and cutting API costs by moving from event triggers to scheduled batch processing.</p>
+          <p class="project-stack">n8n · OpenAI API · Gmail API</p>
+        </div>
+        <span class="project-action">View <span aria-hidden="true">&rarr;</span></span>
+      </a>
+
+      <a class="project-row reveal" href="work-lead-generation-agency.html">
+        <div class="project-num">03</div>
+        <div class="project-body">
+          <span class="project-class is-client">Client Project</span>
+          <h3 class="project-title">Lead Generation Workflow for a Marketing Agency</h3>
+          <p class="project-desc">Replaced a manual CSV export process with an automated pipeline that centralises leads from LinkedIn forms and the website, removes duplicates before they enter the database, and notifies the team instantly.</p>
+          <p class="project-stack">Make.com · Google Sheets · LinkedIn Lead Gen Forms · Webhooks</p>
+        </div>
+        <span class="project-action">View <span aria-hidden="true">&rarr;</span></span>
+      </a>
+
+      <a class="project-row reveal" href="work-lead-qualification.html">
+        <div class="project-num">02</div>
+        <div class="project-body">
+          <span class="project-class is-client">Client Project</span>
+          <h3 class="project-title">AI Lead Qualification Pipeline</h3>
+          <p class="project-desc">A scheduled system that identifies B2B companies showing signs of data management inefficiency, scores them by urgency and fit, structures the qualified ones into reports, and alerts the sales team on the highest-priority prospects.</p>
+          <p class="project-stack">n8n · AI lead scoring · Google Sheets · Slack</p>
+        </div>
+        <span class="project-action">View <span aria-hidden="true">&rarr;</span></span>
+      </a>
+
+      <a class="project-row reveal" href="work-ai-receptionist.html">
+        <div class="project-num">01</div>
+        <div class="project-body">
+          <span class="project-class">Independent Build</span>
+          <h3 class="project-title">AI Voice Receptionist</h3>
+          <p class="project-desc">A voice AI system built to handle inbound calls and messages for a dental clinic — greeting callers, extracting appointment details from natural conversation, writing confirmed bookings to the calendar, and notifying staff.</p>
+          <p class="project-stack">n8n · Vapi · OpenAI API · Google Calendar · Slack</p>
+        </div>
+        <span class="project-action">View <span aria-hidden="true">&rarr;</span></span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="services">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="label">Services</span>
+      <h2 class="display h-section">What I build for businesses</h2>
+      <p class="lede" style="margin-top:var(--s-4)">Systems that replace manual process, not tools bolted onto it.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-item reveal">
+        <h3 class="service-name">AI Agents</h3>
+        <p class="service-desc">Autonomous systems that handle multi-step tasks across your existing tools — qualifying leads, processing documents, routing requests — without a person driving each step.</p>
+      </div>
+      <div class="service-item reveal d1">
+        <h3 class="service-name">Workflow Automation</h3>
+        <p class="service-desc">End-to-end automation of the processes your team repeats daily. Onboarding, invoicing, reporting, CRM updates — connected and running on their own.</p>
+      </div>
+      <div class="service-item reveal">
+        <h3 class="service-name">Voice AI</h3>
+        <p class="service-desc">Voice agents that answer inbound calls, capture what the caller needs, book appointments, and hand off cleanly to your team when a human is required.</p>
+      </div>
+      <div class="service-item reveal d1">
+        <h3 class="service-name">Lead Automation</h3>
+        <p class="service-desc">Pipelines that find, score, and qualify leads on a schedule, then surface only the ones worth a conversation to the people who need to act on them.</p>
+      </div>
+      <div class="service-item reveal">
+        <h3 class="service-name">Business Process Automation</h3>
+        <p class="service-desc">Document review, compliance checks, data entry, internal approvals. The operational work that scales badly with headcount and well with systems.</p>
+      </div>
+      <div class="service-item reveal d1">
+        <h3 class="service-name">Customer Support Automation</h3>
+        <p class="service-desc">Chat and email systems that classify incoming requests, answer what they can, and escalate the rest with full context already attached.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <figure class="reveal">
+        <picture>
+          <source srcset="assets/images/mariam-sm.webp" type="image/webp">
+          <img src="assets/images/mariam.jpg" width="560" height="685" alt="Portrait of Mariam Akinbode">
+        </picture>
+      </figure>
+      <div class="about-body reveal d1">
+        <span class="label">About</span>
+        <h2 class="display h-section" style="margin:var(--s-4) 0 var(--s-5)">The person building Mariverse</h2>
+        <p>I'm Mariam — I build AI-powered systems that take repetitive operational work off people's hands. Voice agents that answer calls, workflows that qualify leads overnight, document systems that read and check submissions before anyone opens a folder.</p>
+        <p>Mariverse is where that work lives. It's a consultancy, a portfolio, and increasingly a place to learn automation — built from Lagos, delivered wherever the work is.</p>
+
+        <ul class="about-list">
+          <li>Specialist in n8n, Make.com, Vapi, OpenAI and Gemini integrations</li>
+          <li>Systems built for clinics, agencies, coaches and procurement teams</li>
+          <li>Compliance automation grounded in real government procurement experience</li>
+          <li>Every build documented and handed over cleanly</li>
+        </ul>
+
+        <div class="skills" id="skills">
+          <div class="skill">
+            <div class="skill-top"><span>n8n &amp; Make.com</span><span>Advanced</span></div>
+            <div class="skill-track"><div class="skill-fill" data-w="90"></div></div>
+          </div>
+          <div class="skill">
+            <div class="skill-top"><span>OpenAI &amp; Gemini APIs</span><span>Advanced</span></div>
+            <div class="skill-track"><div class="skill-fill" data-w="85"></div></div>
+          </div>
+          <div class="skill">
+            <div class="skill-top"><span>Voice AI (Vapi)</span><span>Proficient</span></div>
+            <div class="skill-track"><div class="skill-fill" data-w="78"></div></div>
+          </div>
+          <div class="skill">
+            <div class="skill-top"><span>REST APIs &amp; Webhooks</span><span>Proficient</span></div>
+            <div class="skill-track"><div class="skill-fill" data-w="80"></div></div>
+          </div>
+        </div>
+
+        <div class="hero-actions" style="margin-top:var(--s-6)">
+          <a href="#contact" class="btn btn-primary">Work With Me</a>
+          <a href="#work" class="btn btn-outline">See my projects</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="resources">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="label">Resources &amp; Education</span>
+      <h2 class="display h-section">Learn it, build it, or have it built</h2>
+      <p class="lede" style="margin-top:var(--s-4)">Mariverse is becoming a place to understand AI automation — not just hire for it.</p>
+    </div>
+
+    <div class="lanes">
+      <div class="lane reveal">
+        <h3>Learn</h3>
+        <ul><li>Guides &amp; tutorials</li><li>Free AI resources</li><li>Automation tips</li></ul>
+        <a href="newsletter.html" class="btn btn-text">Explore resources &rarr;</a>
+      </div>
+      <div class="lane reveal d1">
+        <h3>Build</h3>
+        <ul><li>Templates &amp; workflows</li><li>Prompt packs</li><li>Automation blueprints</li></ul>
+        <a href="coming-soon.html" class="btn btn-text">Browse templates &rarr;</a>
+      </div>
+      <div class="lane reveal d2">
+        <h3>Subscribe</h3>
+        <ul><li>The Mariverse Dispatch</li><li>Weekly, free</li><li>Real workflows, no theory</li></ul>
+        <a href="newsletter.html" class="btn btn-text">Join the list &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="wrap-slim nl-block reveal">
+    <span class="label">Newsletter</span>
+    <h2 class="display h-section" style="margin-top:var(--s-4)">The Mariverse Dispatch</h2>
+    <p>Weekly automation insights, real workflows, and free resources.</p>
+    <div class="nl-form">
+      <div class="form-row">
+        <label for="nlEmail" class="sr-only">Email address</label>
+        <input class="field" type="email" id="nlEmail" placeholder="your@email.com" autocomplete="email">
+        <button class="btn btn-primary" type="button" id="nlBtn">Subscribe</button>
+      </div>
+      <p class="nl-note">Free forever · Unsubscribe anytime</p>
+      <p class="nl-ok" id="nlOk">Thanks — check your inbox.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="wrap-mid">
+    <div class="cta-panel reveal">
+      <span class="label">Work With Me</span>
+      <h3 class="display" style="margin-top:var(--s-4);font-size:clamp(1.5rem,3vw,2.1rem)">Have a process worth automating?</h3>
+      <p>Tell me what your team keeps doing by hand. I'll tell you honestly whether it's worth automating and what it would take.</p>
+      <div class="cta-actions">
+        <a href="mailto:hello@mariverse.co" class="btn btn-primary">hello@mariverse.co</a>
+        <a href="https://linkedin.com/in/mariamakinbode" target="_blank" rel="noopener" class="btn btn-outline">Connect on LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="wordmark">Mariverse</a>
+        <p>AI automation systems by Mariam Akinbode. Built from Lagos, delivered globally.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Work</h4>
+        <ul>
+          <li><a href="#work">Projects</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Work With Me</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="newsletter.html">Newsletter</a></li>
+          <li><a href="coming-soon.html">Templates</a></li>
+          <li><a href="#resources">Guides</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://linkedin.com/in/mariamakinbode" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://x.com/mizz_mariposa" target="_blank" rel="noopener">X</a></li>
+          <li><a href="https://www.upwork.com/freelancers/~01d7d6a6ac09bd8132" target="_blank" rel="noopener">Upwork</a></li>
+          <li><a href="mailto:hello@mariverse.co">Email</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Mariverse · mariverse.co</p>
+      <p>hello@mariverse.co</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  } else {
+    els.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  var skills = document.getElementById('skills');
+  if (skills && 'IntersectionObserver' in window) {
+    var so = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.skill-fill').forEach(function (b) { b.style.width = b.dataset.w + '%'; });
+          so.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    so.observe(skills);
+  }
+
+  var toggle = document.getElementById('navToggle');
+  var links = document.getElementById('navLinks');
+  if (toggle && links) {
+    toggle.addEventListener('click', function () {
+      var open = links.classList.toggle('open');
+      toggle.textContent = open ? 'Close' : 'Menu';
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    links.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        links.classList.remove('open');
+        toggle.textContent = 'Menu';
+        toggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
+  var sections = ['work', 'services', 'resources', 'about'];
+  var navAnchors = {};
+  sections.forEach(function (id) {
+    var a = document.querySelector('.nav-links a[href="#' + id + '"]');
+    if (a) navAnchors[id] = a;
+  });
+  if ('IntersectionObserver' in window) {
+    var no = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var a = navAnchors[e.target.id];
+        if (!a) return;
+        if (e.isIntersecting) {
+          Object.keys(navAnchors).forEach(function (k) { navAnchors[k].classList.remove('active'); });
+          a.classList.add('active');
+        }
+      });
+    }, { threshold: 0.25, rootMargin: '-68px 0px -50% 0px' });
+    sections.forEach(function (id) { var s = document.getElementById(id); if (s) no.observe(s); });
+  }
+
+  var nlBtn = document.getElementById('nlBtn');
+  if (nlBtn) {
+    nlBtn.addEventListener('click', function () {
+      var input = document.getElementById('nlEmail');
+      var ok = document.getElementById('nlOk');
+      if (!input.value || input.value.indexOf('@') === -1) { input.focus(); return; }
+      window.location.href = 'mailto:hello@mariverse.co?subject=' +
+        encodeURIComponent('Newsletter signup') + '&body=' +
+        encodeURIComponent('Please add me to the Mariverse Dispatch: ' + input.value);
+      input.value = '';
+      ok.style.display = 'block';
+    });
+  }
+})();
+</script>
+</body>
+</html>
